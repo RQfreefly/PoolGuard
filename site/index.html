@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PoolGuard：面向 Java 项目的线程池泄露扫描 CLI 工具" />
+    <title>PoolGuard | Java 线程池泄露扫描</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div id="top"></div>
+<header class="topbar">
+    <a class="brand" href="#top">
+        <span class="brand-mark">PG</span>
+        <span class="brand-name">PoolGuard</span>
+    </a>
+    <nav class="nav">
+        <a href="#ai" data-i18n="nav_ai">AI 能力</a>
+        <a href="#features" data-i18n="nav_features">能力</a>
+        <a href="#rules" data-i18n="nav_rules">规则</a>
+        <a href="#workflow" data-i18n="nav_workflow">流程</a>
+        <a href="#quickstart" data-i18n="nav_start">开始</a>
+    </nav>
+    <div class="top-actions">
+        <div class="lang-toggle" aria-label="language switch">
+            <button type="button" class="lang-btn is-active" data-lang="zh">中文</button>
+            <button type="button" class="lang-btn" data-lang="en">EN</button>
+        </div>
+        <a class="btn btn-ghost" href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
+    </div>
+</header>
+
+<main>
+    <section class="hero reveal">
+        <p class="tag">Java Thread Pool Leak Scanner</p>
+        <h1 data-i18n-html="hero_title">让线程池泄露问题<br />在提交前暴露</h1>
+        <p class="hero-desc" data-i18n="hero_desc">
+            PoolGuard 是一个面向 Java 项目的 CLI 扫描工具，聚焦线程池生命周期风险，支持规则检测、LLM 复判与多格式报告输出。
+        </p>
+        <div class="hero-cta">
+            <a class="btn btn-primary" href="#quickstart" data-i18n="hero_cta_primary">立即试用</a>
+            <a class="btn btn-ghost" href="#ai" data-i18n="hero_cta_ai">查看 AI 能力</a>
+        </div>
+        <div class="hero-meta">
+            <div>
+                <strong>Java 8</strong>
+                <span data-i18n="meta_java">兼容运行</span>
+            </div>
+            <div>
+                <strong>PG001~PG009</strong>
+                <span data-i18n="meta_rules">核心规则</span>
+            </div>
+            <div>
+                <strong>DashScope + LLM</strong>
+                <span data-i18n="meta_ai">AI 复判闭环</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section ai-section reveal" id="ai">
+        <div class="section-head">
+            <p data-i18n="ai_kicker">AI 审核引擎</p>
+            <h2 data-i18n="ai_title">规则检测之后，再做一轮语义复判</h2>
+        </div>
+        <div class="ai-grid">
+            <article class="ai-panel">
+                <h3 data-i18n="ai_card1_title">误报收敛</h3>
+                <p data-i18n="ai_card1_desc">通过代码上下文理解，降低规则误报，帮助团队优先处理真正高风险问题。</p>
+            </article>
+            <article class="ai-panel">
+                <h3 data-i18n="ai_card2_title">可控降级</h3>
+                <p data-i18n="ai_card2_desc">当 AI 调用超时、限流或失败时，自动回退规则结果，保证扫描流程稳定。</p>
+            </article>
+            <article class="ai-panel">
+                <h3 data-i18n="ai_card3_title">并发可调</h3>
+                <p data-i18n="ai_card3_desc">通过 `--llm-concurrency` 控制复判并发，平衡速度与配额成本。</p>
+            </article>
+            <article class="ai-panel">
+                <h3 data-i18n="ai_card4_title">模型可配</h3>
+                <p data-i18n="ai_card4_desc">默认 `glm-5`，可通过 `--llm-model` 切换模型，匹配企业策略。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section reveal" id="features">
+        <div class="section-head">
+            <p data-i18n="features_kicker">核心能力</p>
+            <h2 data-i18n="features_title">为 CI 与本地扫描设计</h2>
+        </div>
+        <div class="grid">
+            <article class="card">
+                <h3 data-i18n="f1_title">全量 + 增量扫描</h3>
+                <p data-i18n="f1_desc">支持 `--changed-files`，只扫描变更与扩散影响文件，降低扫描成本。</p>
+            </article>
+            <article class="card">
+                <h3 data-i18n="f2_title">AI 语义复判</h3>
+                <p data-i18n="f2_desc">可启用 DashScope 复判，失败自动降级规则结果，不阻断流程。</p>
+            </article>
+            <article class="card">
+                <h3 data-i18n="f3_title">多格式报告</h3>
+                <p data-i18n="f3_desc">提供 JSON、Markdown、Text 三种输出，便于接入平台或直接阅读。</p>
+            </article>
+            <article class="card">
+                <h3 data-i18n="f4_title">缓存机制</h3>
+                <p data-i18n="f4_desc">基于文件哈希缓存减少重复解析，提高迭代场景下执行效率。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section reveal" id="rules">
+        <div class="section-head">
+            <p data-i18n="rules_kicker">规则覆盖</p>
+            <h2 data-i18n="rules_title">首期 P0 风险规则</h2>
+        </div>
+        <div class="rule-list">
+            <span data-i18n="r1">PG001 高频入口方法内创建线程池</span>
+            <span data-i18n="r2">PG002 循环/递归重复创建线程池</span>
+            <span data-i18n="r3">PG003 未关闭或关闭路径不完整</span>
+            <span data-i18n="r4">PG005 生命周期不匹配</span>
+            <span data-i18n="r5">PG006 默认线程工厂不可观测</span>
+            <span data-i18n="r6">PG007 无界队列风险</span>
+            <span data-i18n="r7">PG008 定时线程池未取消且未关闭</span>
+            <span data-i18n="r8">PG009 静态线程池缺少退出钩子</span>
+        </div>
+    </section>
+
+    <section class="section reveal" id="workflow">
+        <div class="section-head">
+            <p data-i18n="flow_kicker">执行路径</p>
+            <h2 data-i18n="flow_title">扫描流程</h2>
+        </div>
+        <ol class="timeline">
+            <li data-i18n="flow_1">参数校验与扫描模式判定（全量 / 增量）</li>
+            <li data-i18n="flow_2">Java 文件发现与源码解析，提取线程池事实模型</li>
+            <li data-i18n="flow_3">规则引擎执行 PG001~PG009</li>
+            <li data-i18n="flow_4">按需触发 LLM 复判并合并结果</li>
+            <li data-i18n="flow_5">按排序策略输出报告到 stdout 或文件</li>
+        </ol>
+    </section>
+
+    <section class="section reveal" id="architecture">
+        <div class="section-head">
+            <p data-i18n="arch_kicker">组件分层</p>
+            <h2 data-i18n="arch_title">架构概览</h2>
+        </div>
+        <pre class="code-block mermaid">
+flowchart LR
+    A[CLI<br/>ScanCommand] --> B[ScanService]
+    B --> C[JavaFileDiscoverer]
+    B --> D[JavaSourceParser]
+    B --> E[P0RuleEngine]
+    B --> F[LlmReviewService]
+    B --> G[ReportRendererFactory]
+        </pre>
+    </section>
+
+    <section class="section reveal" id="quickstart">
+        <div class="section-head">
+            <p data-i18n="start_kicker">快速开始</p>
+            <h2 data-i18n="start_title">本地两步运行</h2>
+        </div>
+        <pre class="code-block"><code>mvn clean package
+java -cp target/classes:$(mvn -q -DincludeScope=runtime dependency:build-classpath -Dmdep.path | tail -n 1) \\
+  cn.rqfreefly.Main scan --path . --format json</code></pre>
+    </section>
+</main>
+
+<footer class="footer">
+    <p data-i18n="footer_text">PoolGuard · Thread Pool Leak Scanner</p>
+    <a href="#top" data-i18n="back_to_top">回到顶部</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

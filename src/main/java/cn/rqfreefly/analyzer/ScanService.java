@@ -131,10 +131,7 @@ public final class ScanService {
         if (config.isEnableLlm()) {
             long llmStart = System.currentTimeMillis();
             // LLM 只做增强，不改变“先由规则发现问题”这个主路径。
-            LlmReviewService currentLlmReviewService = config.isSkipSslVerification()
-                    ? new LlmReviewService(new DashScopeClient(true))
-                    : llmReviewService;
-            issues = currentLlmReviewService.review(issues, config.getLlmModel(), config.getLlmConcurrency());
+            issues = llmReviewService.review(issues, config.getLlmModel(), config.getLlmConcurrency());
             long llmCost = System.currentTimeMillis() - llmStart;
             logPerf("llm", llmCost, issues.size(), "reviewed");
         }

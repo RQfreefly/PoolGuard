@@ -9,16 +9,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 /**
  * DashScope 客户端，固定兼容端点。
@@ -36,23 +28,12 @@ public final class DashScopeClient {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String systemPrompt;
-    private final boolean skipSslVerification;
 
     /**
      * 构造客户端并加载可维护的系统提示词模板。
      */
     public DashScopeClient() {
-        this(false);
-    }
-
-    /**
-     * 构造客户端并加载可维护的系统提示词模板。
-     *
-     * @param skipSslVerification 是否跳过 SSL 证书与主机名校验（仅建议测试环境使用）
-     */
-    public DashScopeClient(boolean skipSslVerification) {
         this.systemPrompt = loadSystemPrompt();
-        this.skipSslVerification = skipSslVerification;
     }
 
     /**
@@ -78,9 +59,6 @@ public final class DashScopeClient {
             try {
                 // 子模块 A：构建 HTTP 连接并设置请求头。
                 HttpURLConnection connection = (HttpURLConnection) new URL(ENDPOINT).openConnection();
-                if (skipSslVerification && connection instanceof HttpsURLConnection) {
-                    configureInsecureSsl((HttpsURLConnection) connection);
-                }
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
                 connection.setConnectTimeout(CONNECT_TIMEOUT_MS);
@@ -124,37 +102,6 @@ public final class DashScopeClient {
         }
 
         return fallback("DashScope 多次重试失败，回退纯规则结果。");
-    }
-
-    private void configureInsecureSsl(HttpsURLConnection connection) throws Exception {
-        // 仅在显式开启时生效，便于联调自签名证书场景。
-        TrustManager[] trustManagers = new TrustManager[] {
-            new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(X509Certificate[] chain, String authType) {
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] chain, String authType) {
-                }
-
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return new X509Certificate[0];
-                }
-            }
-        };
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, trustManagers, new SecureRandom());
-        SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-        HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, javax.net.ssl.SSLSession session) {
-                return true;
-            }
-        };
-        connection.setSSLSocketFactory(sslSocketFactory);
-        connection.setHostnameVerifier(hostnameVerifier);
     }
 
     private String buildRequestBody(String evidenceJson, String model) throws Exception {

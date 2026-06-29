@@ -164,7 +164,6 @@ Core options:
 - `--enable-llm`: enable DashScope review
 - `--llm-model <name>`: LLM model name, default `glm-5`
 - `--llm-concurrency <n>`: LLM concurrency, default `3`
-- `--skip-ssl-verification <true|false>`: whether to skip LLM HTTPS SSL verification, default `false` (recommended only for test environments)
 
 ## Incremental Scan
 
@@ -206,12 +205,6 @@ Enable LLM:
 
 ```bash
 poolguard scan --path . --enable-llm --llm-model glm-5 --llm-concurrency 3
-```
-
-Skip SSL verification (test environments only):
-
-```bash
-poolguard scan --path . --enable-llm --skip-ssl-verification true
 ```
 
 LLM failure strategy:

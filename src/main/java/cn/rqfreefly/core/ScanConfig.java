@@ -16,8 +16,6 @@ public final class ScanConfig {
     private final int llmConcurrency;
     /** 是否启用 LLM 复判流程。 */
     private final boolean enableLlm;
-    /** 是否跳过 LLM HTTPS 的 SSL 校验。 */
-    private final boolean skipSslVerification;
     /** 报告输出文件路径，空值表示输出到标准输出。 */
     private final String outputPath;
     /** 增量扫描文件列表路径，空值表示全量扫描。 */
@@ -32,7 +30,6 @@ public final class ScanConfig {
      * @param llmModel LLM 模型
      * @param llmConcurrency LLM 并发
      * @param enableLlm 是否启用 LLM
-     * @param skipSslVerification 是否跳过 SSL 校验
      * @param outputPath 输出文件路径
      * @param changedFilesPath 增量文件列表路径
      */
@@ -42,7 +39,6 @@ public final class ScanConfig {
                       String llmModel,
                       int llmConcurrency,
                       boolean enableLlm,
-                      boolean skipSslVerification,
                       String outputPath,
                       String changedFilesPath) {
         this.scanPath = scanPath;
@@ -51,7 +47,6 @@ public final class ScanConfig {
         this.llmModel = llmModel;
         this.llmConcurrency = llmConcurrency;
         this.enableLlm = enableLlm;
-        this.skipSslVerification = skipSslVerification;
         this.outputPath = outputPath;
         this.changedFilesPath = changedFilesPath;
     }
@@ -96,13 +91,6 @@ public final class ScanConfig {
      */
     public boolean isEnableLlm() {
         return enableLlm;
-    }
-
-    /**
-     * @return 是否跳过 SSL 校验
-     */
-    public boolean isSkipSslVerification() {
-        return skipSslVerification;
     }
 
     /**

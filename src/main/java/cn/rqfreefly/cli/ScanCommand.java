@@ -52,9 +52,6 @@ public final class ScanCommand implements Callable<Integer> {
     @Option(names = "--enable-llm", defaultValue = "false", description = "是否启用 LLM 复判")
     private boolean enableLlm;
 
-    @Option(names = "--skip-ssl-verification", defaultValue = "false", description = "是否跳过 LLM HTTPS SSL 校验（仅建议测试环境）")
-    private boolean skipSslVerification;
-
     private final ScanService scanService;
 
     /**
@@ -82,7 +79,7 @@ public final class ScanCommand implements Callable<Integer> {
 
             // 模块 2：把命令行参数组装为领域配置对象，避免后续方法参数过多。
             ScanConfig config = new ScanConfig(path, format, sortBy, llmModel, llmConcurrency, enableLlm,
-                    skipSslVerification, output, changedFiles);
+                    output, changedFiles);
 
             // 模块 3：执行扫描主流程并拿到结构化结果。
             ScanResult result = scanService.scan(config);

@@ -28,7 +28,7 @@ class ScanServiceIntegrationTest {
         // 模块: analyzer / 功能: 全量扫描命中核心规则（PG001/PG002/PG003/PG009）
         // Given: 包含多种泄露模式的数据集目录。
         ScanConfig config = new ScanConfig("datasets/threadpool_leak_samples_v1/java", OutputFormat.JSON, SortBy.SEVERITY,
-                "glm-5", 3, false, false, null, null);
+                "glm-5", 3, false, null, null);
 
         // When: 执行全目录扫描。
         ScanResult result = scanService.scan(config);
@@ -51,7 +51,6 @@ class ScanServiceIntegrationTest {
                 "glm-5",
                 3,
                 false,
-                false,
                 null,
                 null);
 
@@ -72,7 +71,6 @@ class ScanServiceIntegrationTest {
                 SortBy.SEVERITY,
                 "glm-5",
                 3,
-                false,
                 false,
                 null,
                 null);
@@ -95,7 +93,6 @@ class ScanServiceIntegrationTest {
                 "glm-5",
                 3,
                 false,
-                false,
                 null,
                 null);
         ScanConfig scheduleConfig = new ScanConfig("datasets/threadpool_leak_samples_v1/java/S021_ScheduledAtFixedRateNoStop.java",
@@ -103,7 +100,6 @@ class ScanServiceIntegrationTest {
                 SortBy.SEVERITY,
                 "glm-5",
                 3,
-                false,
                 false,
                 null,
                 null);

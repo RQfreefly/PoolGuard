@@ -164,7 +164,6 @@ poolguard scan --help
 - `--enable-llm`：启用 DashScope 复判
 - `--llm-model <name>`：LLM 模型名，默认 `glm-5`
 - `--llm-concurrency <n>`：LLM 并发数，默认 `3`
-- `--skip-ssl-verification <true|false>`：是否跳过 LLM HTTPS SSL 校验，默认 `false`（仅建议测试环境）
 
 ## 增量扫描
 
@@ -206,12 +205,6 @@ source ~/.zshrc
 
 ```bash
 poolguard scan --path . --enable-llm --llm-model glm-5 --llm-concurrency 3
-```
-
-跳过 SSL 校验（仅测试环境）：
-
-```bash
-poolguard scan --path . --enable-llm --skip-ssl-verification true
 ```
 
 LLM 失败策略：
